@@ -45,14 +45,14 @@ Once installed, the `macro` command will be available in your terminal. Here’s
 To start recording a macro, use:
 
 ```bash
-tm start <name>
+tm new <name>
 ```
 
 Replace `<name>` with the name you’d like to give to this macro.
 
 Example:
 ```bash
-tm start my_macro
+tm new my_macro
 ```
 
 #### 2. Abort Recording
@@ -60,7 +60,7 @@ tm start my_macro
 If you want to stop recording without saving, use:
 
 ```bash
-tm abort
+tm cancel
 ```
 
 This will discard all commands recorded since the last `record start`.
@@ -70,7 +70,7 @@ This will discard all commands recorded since the last `record start`.
 To stop recording and save the commands to the macro, use:
 
 ```bash
-tm finish
+tm save
 ```
 
 The commands recorded between `record start` and `record finish` will be saved.
@@ -80,21 +80,21 @@ The commands recorded between `record start` and `record finish` will be saved.
 To replay the commands stored in a macro, use:
 
 ```bash
-macro run <name>
+macro exe <name>
 ```
 
 Replace `<name>` with the name of the macro you want to run.
 
 Example:
 ```bash
-macro run my_macro
+macro exe my_macro
 ```
 
 ### Example Workflow
 
 1. Start recording a macro named `backup`:
    ```bash
-   tm start backup
+   tm new backup
    ```
 
 2. Run the commands you want to record, for example:
@@ -105,13 +105,20 @@ macro run my_macro
 
 3. Finish recording the macro:
    ```bash
-   tm finish
+   tm save
    ```
 
 4. Now, whenever you want to execute the `backup` macro, simply run:
    ```bash
-   macro run backup
+   macro exe backup
    ```
+
+
+### Discover all the supported commands:
+
+```bash
+tm --help
+```
 
 ### Uninstalling
 

@@ -91,7 +91,7 @@ def cli():
     pass
 
 
-@cli.command()
+@cli.command("new")
 @click.argument("name")
 def start(name):
     """Start recording a new macro."""
@@ -103,7 +103,7 @@ def start(name):
     click.echo(f"Recording macro '{name}' started.")
 
 
-@cli.command()
+@cli.command("cancel")
 def abort():
     """Abort the current recording."""
     recording_macro = load_head()
@@ -118,7 +118,7 @@ def abort():
     click.echo("Macro recording aborted.")
 
 
-@cli.command()
+@cli.command("save")
 def finish():
     """Finish the current recording and save the macro."""
     recording_macro = load_head()
@@ -138,7 +138,7 @@ def finish():
 
     clear_head()
 
-@cli.command()
+@cli.command("exe")
 @click.argument("name")
 def run(name):
     """Run a saved macro."""
@@ -156,7 +156,7 @@ def run_macro(name):
         os.system(cmd)
         click.echo(f"\n")
 
-@cli.command()
+@cli.command("find")
 @click.argument("keyword")
 def search(keyword):
     """Search for a macro by keyword."""
@@ -170,7 +170,7 @@ def search(keyword):
         click.echo(f"No macros found containing '{keyword}'.")
 
 
-@cli.command()
+@cli.command("desc")
 @click.argument("name")
 def describe(name):
     """Describe a macro by returning its content in JSON format."""
@@ -182,7 +182,7 @@ def describe(name):
     else:
         click.echo(json.dumps(macros, indent=4))
 
-@cli.command()
+@cli.command("ls")
 def list():
     """Describe a macro by returning its content in JSON format."""
     macros = load_macros()
