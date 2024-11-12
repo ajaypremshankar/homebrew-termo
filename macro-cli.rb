@@ -3,7 +3,7 @@ class MacroCli < Formula
   
     desc "A CLI tool for recording and running macros in the terminal"
     homepage "https://github.com/ajaypremshankar/macro-cli"
-    url "https://github.com/ajaypremshankar/homebrew-macro-cli/releases/download/1.0.1/macro_cli-1.0.2.tar.gz"
+    url "https://github.com/ajaypremshankar/homebrew-macro-cli/releases/download/1.0.2/macro_cli-1.0.2.tar.gz"
     sha256 "56a502d88b611cfa4561bdaab97304881c6c5509b7ef1108eb36dd39e3898ee1"  
     license "MIT"
   
