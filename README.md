@@ -45,14 +45,14 @@ Once installed, the `macro` command will be available in your terminal. Here’s
 To start recording a macro, use:
 
 ```bash
-macro record start <name>
+mrec start <name>
 ```
 
 Replace `<name>` with the name you’d like to give to this macro.
 
 Example:
 ```bash
-macro record start my_macro
+mrec start my_macro
 ```
 
 #### 2. Abort Recording
@@ -60,7 +60,7 @@ macro record start my_macro
 If you want to stop recording without saving, use:
 
 ```bash
-macro record abort
+mrec abort
 ```
 
 This will discard all commands recorded since the last `record start`.
@@ -70,7 +70,7 @@ This will discard all commands recorded since the last `record start`.
 To stop recording and save the commands to the macro, use:
 
 ```bash
-macro record finish
+mrec finish
 ```
 
 The commands recorded between `record start` and `record finish` will be saved.
@@ -94,7 +94,7 @@ macro run my_macro
 
 1. Start recording a macro named `backup`:
    ```bash
-   macro record start backup
+   mrec start backup
    ```
 
 2. Run the commands you want to record, for example:
@@ -105,7 +105,7 @@ macro run my_macro
 
 3. Finish recording the macro:
    ```bash
-   macro record finish
+   mrec finish
    ```
 
 4. Now, whenever you want to execute the `backup` macro, simply run:
