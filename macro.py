@@ -31,7 +31,6 @@ MACRO_FILE = MACRO_DIR / ".macros.json"
 
 # Load macros from file
 def load_macros():
-    print(MACRO_FILE)
     if MACRO_FILE.exists():
         with open(MACRO_FILE, "r") as file:
             return json.load(file)
@@ -136,7 +135,7 @@ def finish():
     else:
         click.echo("No commands were recorded.")
 
-    clear_head()  # Clear the HEAD file
+    clear_head()
 
 @cli.command()
 @click.argument("name")
@@ -149,12 +148,13 @@ def run(name):
     click.echo(f"Running macro '{name}':")
 
     for cmd in macros[name]:
+        click.echo(f"'{cmd}':")
         os.system(cmd)
 
 
 @cli.command()
 @click.argument("keyword")
-def content(keyword):
+def search(keyword):
     """Search for a macro by keyword."""
     macros = load_macros()
     results = {macro: commands for macro, commands in macros.items() if any(keyword in command for command in commands)}
@@ -171,7 +171,7 @@ def content(keyword):
 @cli.command()
 @click.argument("name")
 def describe(name):
-    """Describe a macro by returning its content in JSON format. If name not provided describes all the macros"""
+    """Describe a macro by returning its content in JSON format."""
     macros = load_macros()
     if name in macros:
         # Format and print the macro content in JSON format
@@ -179,6 +179,15 @@ def describe(name):
         click.echo(json.dumps(macro_content, indent=4))
     else:
         click.echo(json.dumps(macros, indent=4))
+
+@cli.command()
+def list(name):
+    """Describe a macro by returning its content in JSON format."""
+    macros = load_macros()
+    for key in macros.keys():
+        click.echo(key)
+
+    click.echo(f"use `mrec describe <macro name>` command to see more details")
 
 if __name__ == "__main__":
     cli()
