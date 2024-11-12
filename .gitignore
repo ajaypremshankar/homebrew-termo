@@ -1,0 +1,4 @@
+dist
+build
+macro_cli.*
+.DS_Store
