@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="macro-cli",
-    version="1.0",
+    version="1.0.1",
     description="A CLI tool for recording and running macros in the terminal.",
     author="Ajay Prem Shankar",
     author_email="ajaypremshankar@gmail.com",
