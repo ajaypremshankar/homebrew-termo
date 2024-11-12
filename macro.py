@@ -43,7 +43,7 @@ def save_macros(macros):
         json.dump(macros, file)
 
 def get_macro_commands_from_history(macro_name):
-    """Extract commands between 'record start <macro_name>' and 'record finish' in the zsh_history file."""
+    """Extract commands between 'mrec start <macro_name>' and 'mrec finish' in the zsh_history file."""
     history_path = Path.home() / ".zsh_history"
     
     if not history_path.exists():
@@ -57,23 +57,23 @@ def get_macro_commands_from_history(macro_name):
     # Find the last 'record start <macro_name>'
     start_index = None
     for i in range(len(lines) - 1, -1, -1):
-        if f"record start {macro_name}" in lines[i]:
+        if f"mrec start {macro_name}" in lines[i]:
             start_index = i
             break
 
     if start_index is None:
-        print(f"No 'record start {macro_name}' found in zsh_history.")
+        print(f"No 'start {macro_name}' found in zsh_history.")
         return []
 
     # Find the first 'record finish' after the start
     end_index = None
     for i in range(start_index + 1, len(lines)):
-        if "record finish" in lines[i]:
+        if "mrec finish" in lines[i]:
             end_index = i
             break
 
     if end_index is None:
-        print(f"No 'record finish' found after 'record start {macro_name}'.")
+        print(f"No 'finish' found after 'record start {macro_name}'.")
         return []
 
     # Extract and parse commands between start and finish
