@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import subprocess
 
-MACRO_DIR = Path.home() / ".macros"
+MACRO_DIR = Path.home() / ".termo"
 MACRO_DIR.mkdir(exist_ok=True)
 HEAD_FILE = MACRO_DIR / "HEAD"
 
@@ -89,12 +89,13 @@ def get_macro_commands_from_history(macro_name):
 @click.group(invoke_without_command=True)
 @click.pass_context
 @click.argument("name", required=False)  # Make the name argument optional
-def cli():
+def cli(ctx, name):
     """Run a macro directly by name, or use commands to manage macros."""
     if ctx.invoked_subcommand is None and name:
         run_macro(name)
     else:
         pass
+
 
 @cli.command()
 @click.argument("name")
@@ -170,7 +171,7 @@ def search(keyword):
     if results:
         click.echo(f"Macros found containing '{keyword}':")
         for result in results:
-            print(f"- {result}")
+            click.echo(f"- {result}")
     else:
         click.echo(f"No macros found containing '{keyword}'.")
 
@@ -192,7 +193,7 @@ def list():
     """Describe a macro by returning its content in JSON format."""
     macros = load_macros()
     for key in macros.keys():
-        click.echo(key)
+        click.echo(f"- {result}")
 
     click.echo(click.style(f"\nNOTE: use `tm describe <macro name>` command to see more details", fg='blue'))
 
