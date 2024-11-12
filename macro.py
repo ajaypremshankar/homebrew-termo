@@ -145,12 +145,12 @@ def run(name):
     if name not in macros:
         click.echo(f"No macro found with the name '{name}'")
         return
-    click.echo(f"Running macro '{name}':")
 
+    click.echo(f"\n")
     for cmd in macros[name]:
-        click.echo(f"'{cmd}':\n")
+        click.echo(f"{cmd}:\n", bold=True)
         os.system(cmd)
-        click.echo(f"\n\n")
+        click.echo(f"\n")
 
 
 @cli.command()
@@ -158,7 +158,7 @@ def run(name):
 def search(keyword):
     """Search for a macro by keyword."""
     macros = load_macros()
-    results = [macro for macro in macros if name.lower() in macro.lower()]
+    results = [macro for macro in macros if keyword.lower() in macro.lower()]
     if results:
         click.echo(f"Macros found containing '{keyword}':")
         for macro, commands in results.items():
@@ -188,7 +188,7 @@ def list():
     for key in macros.keys():
         click.echo(key)
 
-    click.echo(f"use `mrec describe <macro name>` command to see more details")
+    click.echo(f"\nNOTE: use `mrec describe <macro name>` command to see more details", fg='blue')
 
 if __name__ == "__main__":
     cli()
