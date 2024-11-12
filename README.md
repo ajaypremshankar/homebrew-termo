@@ -11,7 +11,7 @@
 
 ### Requirements
 
-- Python 3.6+
+- Python 3.12+
 - `click` package (handled automatically during installation)
 
 ### Installation
@@ -20,7 +20,7 @@ To install **macro-cli** using `pip`:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/macro-cli.git
+   git clone https://github.com/ajaypremshankar/homebrew-macro-cli.git
    cd macro-cli
    ```
 
