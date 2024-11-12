@@ -141,7 +141,7 @@ def finish():
 @cli.command()
 @click.argument("name")
 def run(name):
-    # """Run a saved macro."""
+    """Run a saved macro."""
     macros = load_macros()
     if name not in macros:
         click.echo(f"No macro found with the name '{name}'")
@@ -150,6 +150,35 @@ def run(name):
 
     for cmd in macros[name]:
         os.system(cmd)
+
+
+@cli.command()
+@click.argument("keyword")
+def content(keyword):
+    """Search for a macro by keyword."""
+    macros = load_macros()
+    results = {macro: commands for macro, commands in macros.items() if any(keyword in command for command in commands)}
+    if results:
+        click.echo(f"Macros found containing '{keyword}':")
+        for macro, commands in results.items():
+            click.echo(f"- {macro}:")
+            for command in commands:
+                print(f"  - {command}")
+    else:
+        click.echo(f"No macros found containing '{keyword}'.")
+
+
+@cli.command()
+@click.argument("name")
+def describe(name):
+    """Describe a macro by returning its content in JSON format. If name not provided describes all the macros"""
+    macros = load_macros()
+    if name in macros:
+        # Format and print the macro content in JSON format
+        macro_content = {name: macros[name]}
+        click.echo(json.dumps(macro_content, indent=4))
+    else:
+        click.echo(json.dumps(macros, indent=4))
 
 if __name__ == "__main__":
     cli()
