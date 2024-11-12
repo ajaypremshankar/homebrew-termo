@@ -14,7 +14,7 @@ class MacroCli < Formula
     end
   
     test do
-      system "#{bin}/macro", "--help"
+      system "#{bin}/mrec", "--help"
     end
   end
   
