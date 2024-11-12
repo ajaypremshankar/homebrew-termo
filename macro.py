@@ -148,8 +148,9 @@ def run(name):
     click.echo(f"Running macro '{name}':")
 
     for cmd in macros[name]:
-        click.echo(f"'{cmd}':")
+        click.echo(f"'{cmd}':\n")
         os.system(cmd)
+        click.echo(f"\n\n")
 
 
 @cli.command()
@@ -157,7 +158,7 @@ def run(name):
 def search(keyword):
     """Search for a macro by keyword."""
     macros = load_macros()
-    results = {macro: commands for macro, commands in macros.items() if any(keyword in command for command in commands)}
+    results = [macro for macro in macros if name.lower() in macro.lower()]
     if results:
         click.echo(f"Macros found containing '{keyword}':")
         for macro, commands in results.items():
@@ -181,7 +182,7 @@ def describe(name):
         click.echo(json.dumps(macros, indent=4))
 
 @cli.command()
-def list(name):
+def list():
     """Describe a macro by returning its content in JSON format."""
     macros = load_macros()
     for key in macros.keys():
