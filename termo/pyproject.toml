@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "macro-cli"
+name = "termo"
 version = "0.1.0"
 description = ""
 authors = ["Ajay Prem Shankar <ajaypremshankar@gmail.com>"]

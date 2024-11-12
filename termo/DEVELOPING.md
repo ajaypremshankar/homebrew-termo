@@ -26,6 +26,6 @@ pip install -U pip setuptools wheel
 Try building and installing the package again within the virtual environment:
 
 ```bash
-pip install dist/macro-cli-1.0.tar.gz
+pip install dist/termo-1.0.tar.gz
 ```
 This process should resolve most common wheel-building issues. Let me know if these steps help or if any errors persist—additional configuration may be required if specific errors continue.

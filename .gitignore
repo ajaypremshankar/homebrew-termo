@@ -1,4 +1,4 @@
 dist
 build
-macro_cli.*
+*egg-info
 .DS_Store

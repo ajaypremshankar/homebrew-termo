@@ -42,7 +42,7 @@ def save_macros(macros):
         json.dump(macros, file)
 
 def get_macro_commands_from_history(macro_name):
-    """Extract commands between 'mrec start <macro_name>' and 'mrec finish' in the zsh_history file."""
+    """Extract commands between 'tm start <macro_name>' and 'tm finish' in the zsh_history file."""
     history_path = Path.home() / ".zsh_history"
     
     if not history_path.exists():
@@ -56,7 +56,7 @@ def get_macro_commands_from_history(macro_name):
     # Find the last 'record start <macro_name>'
     start_index = None
     for i in range(len(lines) - 1, -1, -1):
-        if f"mrec start {macro_name}" in lines[i]:
+        if f"tm start {macro_name}" in lines[i]:
             start_index = i
             break
 
@@ -67,7 +67,7 @@ def get_macro_commands_from_history(macro_name):
     # Find the first 'record finish' after the start
     end_index = None
     for i in range(start_index + 1, len(lines)):
-        if "mrec finish" in lines[i]:
+        if "tm finish" in lines[i]:
             end_index = i
             break
 
@@ -86,9 +86,15 @@ def get_macro_commands_from_history(macro_name):
 
     return macro_commands
 
-@click.group()
+@click.group(invoke_without_command=True)
+@click.pass_context
+@click.argument("name", required=False)  # Make the name argument optional
 def cli():
-    pass
+    """Run a macro directly by name, or use commands to manage macros."""
+    if ctx.invoked_subcommand is None and name:
+        run_macro(name)
+    else:
+        pass
 
 @cli.command()
 @click.argument("name")
@@ -141,6 +147,9 @@ def finish():
 @click.argument("name")
 def run(name):
     """Run a saved macro."""
+    run_macro(name)
+
+def run_macro(name):
     macros = load_macros()
     if name not in macros:
         click.echo(f"No macro found with the name '{name}'")
@@ -151,7 +160,6 @@ def run(name):
         click.echo(click.style(f"{cmd}:\n", bold=True))
         os.system(cmd)
         click.echo(f"\n")
-
 
 @cli.command()
 @click.argument("keyword")
@@ -186,7 +194,7 @@ def list():
     for key in macros.keys():
         click.echo(key)
 
-    click.echo(click.style(f"\nNOTE: use `mrec describe <macro name>` command to see more details", fg='blue'))
+    click.echo(click.style(f"\nNOTE: use `tm describe <macro name>` command to see more details", fg='blue'))
 
 if __name__ == "__main__":
     cli()

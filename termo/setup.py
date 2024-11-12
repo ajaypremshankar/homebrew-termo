@@ -1,19 +1,20 @@
 from setuptools import setup
 
 setup(
-    name="macro-cli",
+    name="Termo",
     version="1.0.2",
     description="A CLI tool for recording and running macros in the terminal.",
     author="Ajay Prem Shankar",
     author_email="ajaypremshankar@gmail.com",
-    py_modules=["macro"],
+    py_modules=["termo"],
     install_requires=[
         "click",
         "setuptools"
     ],
     entry_points={
         "console_scripts": [
-            "mrec=macro:cli",
+            "tm=termo:cli",
+            "termo=termo:cli",
         ],
     },
     classifiers=[

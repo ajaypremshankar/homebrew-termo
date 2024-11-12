@@ -1,10 +1,10 @@
-class MacroCli < Formula
+class Termo < Formula
     include Language::Python::Virtualenv
   
     desc "A CLI tool for recording and running macros in the terminal"
-    homepage "https://github.com/ajaypremshankar/macro-cli"
-    url "https://github.com/ajaypremshankar/homebrew-macro-cli/releases/download/1.0.2/macro_cli-1.0.2.tar.gz"
-    sha256 "58a6fc148e9c95ed3d4d0aa3989a453944c8d6893748525e6a681db1a869e1f9"  
+    homepage "https://github.com/ajaypremshankar/homebrew-tap"
+    url "https://github.com/ajaypremshankar/homebrew-tap/releases/download/1.0.2/termo-1.0.2.tar.gz"
+    sha256 "949fbd94c0ef30cb16016fdab30acf96dc4417e8e6c12e1cc169b8c0ddc0e786"  
     license "MIT"
   
     depends_on "python@3.12"
@@ -20,7 +20,7 @@ class MacroCli < Formula
     end
   
     test do
-      system "#{bin}/mrec", "--help"
+      system "#{bin}/tm", "--help"
     end
   end
   
