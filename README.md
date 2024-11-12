@@ -29,7 +29,7 @@ To install **termo** using `pip`:
    pip install .
    ```
 
-Or you can install it directly from [Homebrew](https://brew.sh/) if it's published:
+Or you can install it directly from [Homebrew](https://brew.sh/):
 
 ```bash
 brew install ajaypremshankar/homebrew-termo/termo
