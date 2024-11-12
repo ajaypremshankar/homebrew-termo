@@ -86,15 +86,9 @@ def get_macro_commands_from_history(macro_name):
 
     return macro_commands
 
-@click.group(invoke_without_command=True)
-@click.pass_context
-@click.argument("name", required=False)  # Make the name argument optional
-def cli(ctx, name):
-    """Run a macro directly by name, or use commands to manage macros."""
-    if ctx.invoked_subcommand is None and name:
-        run_macro(name)
-    else:
-        pass
+@click.group()
+def cli():
+    pass
 
 
 @cli.command()
