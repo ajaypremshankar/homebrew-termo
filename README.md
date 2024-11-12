@@ -32,7 +32,8 @@ To install **macro-cli** using `pip`:
 Or you can install it directly from [Homebrew](https://brew.sh/) if it's published:
 
 ```bash
-brew install yourusername/tap/macro-cli
+brew tap ajaypremshankar/macro-cli
+brew install macro-cli
 ```
 
 ### Usage
