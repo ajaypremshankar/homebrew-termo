@@ -2,8 +2,8 @@ class Termo < Formula
     include Language::Python::Virtualenv
   
     desc "A CLI tool for recording and running macros in the terminal"
-    homepage "https://github.com/ajaypremshankar/homebrew-tap"
-    url "https://github.com/ajaypremshankar/homebrew-tap/releases/download/1.0.2/termo-1.0.2.tar.gz"
+    homepage "https://github.com/ajaypremshankar/homebrew-tap/termo"
+    url "https://github.com/ajaypremshankar/homebrew-tap/releases/download/termo-1.0.2/app.tar.gz"
     sha256 "949fbd94c0ef30cb16016fdab30acf96dc4417e8e6c12e1cc169b8c0ddc0e786"  
     license "MIT"
   
