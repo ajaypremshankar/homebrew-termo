@@ -9,7 +9,7 @@ setup(
     py_modules=["macro"],
     install_requires=[
         "click",
-        "setuptools"  # Add any dependencies here
+        "setuptools"
     ],
     entry_points={
         "console_scripts": [
