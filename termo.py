@@ -8,6 +8,34 @@ import subprocess
 MACRO_DIR = Path.home() / ".termo"
 MACRO_DIR.mkdir(exist_ok=True)
 HEAD_FILE = MACRO_DIR / "HEAD"
+CONFIG_FILE = MACRO_DIR / "config.json"
+
+def is_first_run():
+    """Check if this is the first run by looking for a config file."""
+    if not CONFIG_FILE.exists():
+        # If the config file doesn't exist, assume it's the first run
+        return True
+    with open(CONFIG_FILE, "r") as file:
+        config = json.load(file)
+    return config.get("first_run", True)
+
+def complete_first_run():
+    """Mark the first run as complete by updating the config file."""
+    with open(CONFIG_FILE, "w") as file:
+        json.dump({"first_run": False}, file)
+
+def display_setup_guide():
+    """Display a welcome message and setup guide for first-time users."""
+    click.echo(click.style("\nWelcome to Termo!", fg="green", bold=True))
+    click.echo("This quick guide will help you get started with Termo:\n")
+    click.echo("Key Commands:")
+    click.echo("  - tm new <name>    : Start recording a new macro")
+    click.echo("  - tm save          : Save the current macro recording")
+    click.echo("  - tm <name>        : Run a saved macro by name")
+    click.echo("  - tm ls            : List all macros")
+    click.echo("  - tm desc <name>   : Describe a macro in detail\n")
+    click.echo(click.style("Happy automating with Termo!\n", fg="green", bold=True))
+
 
 def load_head():
     """Load the current macro name from HEAD file."""
@@ -29,14 +57,12 @@ def clear_head():
 # Set up a storage file for macros
 MACRO_FILE = MACRO_DIR / ".macros.json"
 
-# Load macros from file
 def load_macros():
     if MACRO_FILE.exists():
         with open(MACRO_FILE, "r") as file:
             return json.load(file)
     return {}
 
-# Save macros to file
 def save_macros(macros):
     with open(MACRO_FILE, "w") as file:
         json.dump(macros, file)
@@ -49,11 +75,9 @@ def get_macro_commands_from_history(macro_name):
         print("zsh_history file not found.")
         return []
 
-    # Read the history file and initialize variables
     with open(history_path, "r") as file:
         lines = file.readlines()
 
-    # Find the last 'record start <macro_name>'
     start_index = None
     for i in range(len(lines) - 1, -1, -1):
         if f"tm start {macro_name}" in lines[i]:
@@ -64,7 +88,6 @@ def get_macro_commands_from_history(macro_name):
         print(f"No 'start {macro_name}' found in zsh_history.")
         return []
 
-    # Find the first 'record finish' after the start
     end_index = None
     for i in range(start_index + 1, len(lines)):
         if "tm finish" in lines[i]:
@@ -75,11 +98,10 @@ def get_macro_commands_from_history(macro_name):
         print(f"No 'finish' found after 'record start {macro_name}'.")
         return []
 
-    # Extract and parse commands between start and finish
     macro_commands = []
     for line in lines[start_index + 1 : end_index]:
         # Each line is in the format ": <timestamp>:<duration>;<command>"
-        parts = line.split(";", 1)  # Split only on the first `;`
+        parts = line.split(";", maxsplit=1)  # Split only on the first `;`
         if len(parts) > 1:
             command = parts[1].strip()
             macro_commands.append(command)
@@ -88,8 +110,10 @@ def get_macro_commands_from_history(macro_name):
 
 @click.group()
 def cli():
+    if is_first_run():
+        display_setup_guide()
+        complete_first_run()
     pass
-
 
 @cli.command("new")
 @click.argument("name")
@@ -148,13 +172,14 @@ def run_macro(name):
     macros = load_macros()
     if name not in macros:
         click.echo(f"No macro found with the name '{name}'")
+        click.echo(click.style(f"\nNOTE: use `tm search <keyword>` command to search macros", fg='blue'))
         return
 
-    click.echo(f"\n")
+    click.echo(click.style(f"Executing macro '{name}':\n", bold=True))
     for cmd in macros[name]:
-        click.echo(click.style(f"{cmd}:\n", bold=True))
+        click.echo(click.style(f"→ {cmd}", fg='green'))
         os.system(cmd)
-        click.echo(f"\n")
+        click.echo("")
 
 @cli.command("find")
 @click.argument("keyword")
@@ -174,20 +199,27 @@ def search(keyword):
 @click.argument("name")
 def describe(name):
     """Describe a macro by returning its content in JSON format."""
+
     macros = load_macros()
     if name in macros:
-        # Format and print the macro content in JSON format
         macro_content = {name: macros[name]}
         click.echo(json.dumps(macro_content, indent=4))
     else:
-        click.echo(json.dumps(macros, indent=4))
+        click.echo(f"No macro with this name was found")
+        click.echo(click.style(f"\nNOTE: use `tm list` command to see all saved macros", fg='blue'))
 
 @cli.command("ls")
 def list():
-    """Describe a macro by returning its content in JSON format."""
+    """List all the saved marcos."""
+    
     macros = load_macros()
+
+    if not macros:
+        click.echo(click.style("No macros were found", fg='blue'))
+        return
+
     for key in macros.keys():
-        click.echo(f"- {result}")
+        click.echo(f"- {key}")
 
     click.echo(click.style(f"\nNOTE: use `tm describe <macro name>` command to see more details", fg='blue'))
 
