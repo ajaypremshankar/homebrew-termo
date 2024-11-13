@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="Termo",
-    version="1.0.2",
+    version="1.0.3",
     description="A CLI tool for recording and running macros in the terminal.",
     author="Ajay Prem Shankar",
     author_email="ajaypremshankar@gmail.com",
