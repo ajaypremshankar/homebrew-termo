@@ -68,7 +68,7 @@ def save_macros(macros):
         json.dump(macros, file)
 
 def get_macro_commands_from_history(macro_name):
-    """Extract commands between 'tm start <macro_name>' and 'tm finish' in the zsh_history file."""
+    """Extract commands between 'tm new <macro_name>' and 'tm save' in the zsh_history file."""
     history_path = Path.home() / ".zsh_history"
     
     if not history_path.exists():
@@ -80,17 +80,17 @@ def get_macro_commands_from_history(macro_name):
 
     start_index = None
     for i in range(len(lines) - 1, -1, -1):
-        if f"tm start {macro_name}" in lines[i]:
+        if f"tm new {macro_name}" in lines[i]:
             start_index = i
             break
 
     if start_index is None:
-        print(f"No 'start {macro_name}' found in zsh_history.")
+        print(f"No 'new {macro_name}' found in zsh_history.")
         return []
 
     end_index = None
     for i in range(start_index + 1, len(lines)):
-        if "tm finish" in lines[i]:
+        if "tm save" in lines[i]:
             end_index = i
             break
 
