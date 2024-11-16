@@ -3,6 +3,8 @@
 
 **termo** (or **Terminal Macros**) is a command-line tool designed to help users record and run macros directly from the terminal. This tool allows you to capture a sequence of commands, store them under a specific name, and then replay those commands as needed. It's particularly useful for automating repetitive tasks.
 
+[Demo](./demo.gif)
+
 ### Features
 
 - **Record Macros**: Capture a series of commands under a specific name.
