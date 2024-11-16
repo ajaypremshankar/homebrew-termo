@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import click
 
 from app.commands.cancel import CancelCommand
@@ -16,8 +17,10 @@ from app.utils.config_utils import (is_first_run,
                                     complete_first_run)
 
 
-@click.group(cls=DefaultGroup, default_if_no_args=False,
-             help="Pass command to run or just macro name to 'exec' given macro")
+@click.group(cls=DefaultGroup,
+             default_if_no_args=True,
+             help="Pass command to run or just macro name to 'exec' given macro",
+             default="exec")
 def cli():
     if is_first_run():
         display_setup_guide()
@@ -25,19 +28,15 @@ def cli():
     pass
 
 
-def _get_click_argument(name):
-    return click.argument(name)
-
-
-NewCommand().register(cli, _get_click_argument("name"))
-ListCommand().register(cli)
-CancelCommand().register(cli)
-SaveCommand().register(cli)
-ExecCommand().register(cli, _get_click_argument("name"))
-FindCommand().register(cli, _get_click_argument("keyword"))
-DescCommand().register(cli, _get_click_argument("name"))
-DelCommand().register(cli, _get_click_argument("name"))
-EditCommand().register(cli, _get_click_argument("name"))
+cli.add_command(NewCommand())
+cli.add_command(ListCommand())
+cli.add_command(CancelCommand())
+cli.add_command(SaveCommand())
+cli.add_command(FindCommand())
+cli.add_command(DescCommand())
+cli.add_command(DelCommand())
+cli.add_command(EditCommand())
+cli.add_command(ExecCommand())
 
 if __name__ == "__main__":
     cli()

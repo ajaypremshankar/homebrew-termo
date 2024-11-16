@@ -3,16 +3,17 @@ import os
 import click
 
 from app.commands.base_command import Command
+from app.utils.click_utils import get_argument
 from app.utils.config_utils import load_macros
 
 
 class ExecCommand(Command):
     def __init__(self):
-        super().__init__(name="exec", help_text="Execute a saved macro")
+        super().__init__(name="exec",
+                         help_text="Execute a saved macro",
+                         arguments=get_argument("name"))
 
-    def execute(self, **kwargs):
-        name = kwargs.get("name")
-
+    def execute(self, name):
         macros = load_macros()
         if name not in macros:
             click.echo(f"No macro found with the name '{name}'")

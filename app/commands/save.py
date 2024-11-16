@@ -10,9 +10,10 @@ from app.utils.config_utils import (load_head,
 
 class SaveCommand(Command):
     def __init__(self):
-        super().__init__(name="save", help_text="Finish the current recording and save the macro")
+        super().__init__(name="save",
+                         help_text="Finish the current recording and save the macro")
 
-    def execute(self, **kwargs):
+    def execute(self):
         recording_macro = load_head()
         if not recording_macro:
             click.echo("No macro recording in progress.")

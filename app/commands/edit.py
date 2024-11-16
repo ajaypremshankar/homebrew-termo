@@ -3,18 +3,18 @@ from difflib import unified_diff
 import click
 
 from app.commands.base_command import Command
+from app.utils.click_utils import get_argument
 from app.utils.config_utils import load_macros, save_macros
 from app.utils.diff_utils import print_diff
 
 
 class EditCommand(Command):
     def __init__(self):
-        super().__init__(name="edit", help_text="Edit a saved macro by name")
+        super().__init__(name="edit",
+                         help_text="Edit a saved macro by name",
+                         arguments=get_argument("name"))
 
-    def execute(self, **kwargs):
-
-        name = kwargs.get("name")
-
+    def execute(self, name):
         macros = load_macros()
         if name not in macros:
             click.echo(f"No macro found with the name '{name}'")

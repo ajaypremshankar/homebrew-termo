@@ -6,9 +6,10 @@ from app.utils.config_utils import load_macros
 
 class ListCommand(Command):
     def __init__(self):
-        super().__init__(name="ls", help_text="Lists available macros")
+        super().__init__(name="ls",
+                         help_text="Lists available macros")
 
-    def execute(self, **kwargs):
+    def execute(self):
         macros = load_macros()
 
         if not macros:

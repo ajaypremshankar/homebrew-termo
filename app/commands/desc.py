@@ -1,16 +1,17 @@
 import click
 
 from app.commands.base_command import Command
+from app.utils.click_utils import get_argument
 from app.utils.config_utils import load_macros
 
 
 class DescCommand(Command):
     def __init__(self):
-        super().__init__(name="desc", help_text="Shows macro definition by name")
+        super().__init__(name="desc",
+                         help_text="Shows macro definition by name",
+                         arguments=get_argument("name"))
 
-    def execute(self, **kwargs):
-        name = kwargs.get("name")
-
+    def execute(self, name):
         macros = load_macros()
         if name in macros:
             click.echo(click.style(f"Macro '{name}' runs commands in following order:", fg='blue'))
