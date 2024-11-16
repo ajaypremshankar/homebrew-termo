@@ -3,8 +3,8 @@ class Termo < Formula
   
     desc "A CLI tool for recording and running macros in the terminal"
     homepage "https://github.com/ajaypremshankar/homebrew-termo/"
-    url "https://github.com/ajaypremshankar/homebrew-termo/releases/download/1.0.3/termo.tar.gz"
-    sha256 "109864c3e4c9212d58f24439cd43e6909b3e510e2af3f567cd623ffbc355ace8"  
+    url "https://github.com/ajaypremshankar/homebrew-termo/releases/download/1.1.0/termo.tar.gz"
+    sha256 "81bb6a5c201de8da95b5e544623db28087232c864021bb00c2a7a54bf5dc29ef"  
     license "MIT"
   
     depends_on "python@3.12"

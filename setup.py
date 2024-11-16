@@ -1,12 +1,14 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="Termo",
-    version="1.0.3",
+    version="1.1.0",
     description="A CLI tool for recording and running macros in the terminal.",
     author="Ajay Prem Shankar",
     author_email="ajaypremshankar@gmail.com",
+    packages=find_packages(include=["app", "app.*"]),
     py_modules=["termo"],
+      # Include the `commands` package
     install_requires=[
         "click",
         "setuptools"
