@@ -9,10 +9,28 @@ HEAD_FILE = MACRO_DIR / "HEAD"
 CONFIG_FILE = MACRO_DIR / ".config.json"
 
 
+def load_prebuilt_macros():
+    """Initialize pre-built macros."""
+    prebuilt_macros = {
+        "sysinfo": ["uname -a", "df -h", "free -h"],
+        "netdiag": ["ping -c 4 google.com", "traceroute google.com", "ifconfig"],
+        "gitstat": ["git status", "git branch", "git log --oneline -5"],
+        "cleantemp": ["rm -rf /tmp/*", "rm -rf ~/.cache/*"],
+        "pyenv": ["python3 -m venv venv", "source venv/bin/activate", "pip install --upgrade pip setuptools"],
+        "findlarge": ["du -ah . | sort -rh | head -n 10"],
+        "backupdir": ["tar -czvf backup.tar.gz ~/Documents"],
+        "sysupdate": ["sudo apt update && sudo apt upgrade -y"],
+        "dockerclean": ["docker system prune -f", "docker volume prune -f"],
+        "sshserver": ["ssh user@your-server.com"]
+    }
+    
+    macros = load_macros()
+    macros.update(prebuilt_macros)
+    save_macros(macros)
+
 def is_first_run():
     """Check if this is the first run by looking for a config file."""
     if not CONFIG_FILE.exists():
-        # If the config file doesn't exist, assume it's the first run
         return True
     with open(CONFIG_FILE, "r") as file:
         config = json.load(file)
@@ -58,7 +76,6 @@ def clear_head():
         HEAD_FILE.unlink()
 
 
-# Set up a storage file for macros
 MACRO_FILE = MACRO_DIR / "macros.json"
 
 
@@ -108,7 +125,7 @@ def get_macro_commands_from_history(name):
     macro_commands = []
     for line in lines[start_index + 1: end_index]:
         # Each line is in the format ": <timestamp>:<duration>;<command>"
-        parts = line.split(";", maxsplit=1)  # Split only on the first `;`
+        parts = line.split(";", maxsplit=1)
         if len(parts) > 1:
             command = parts[1].strip()
             macro_commands.append(command)

@@ -14,7 +14,8 @@ from app.commands.save import SaveCommand
 from app.default_group import DefaultGroup
 from app.utils.config_utils import (is_first_run,
                                     display_setup_guide,
-                                    complete_first_run)
+                                    complete_first_run,
+                                    load_prebuilt_macros)
 
 
 @click.group(cls=DefaultGroup,
@@ -23,6 +24,7 @@ from app.utils.config_utils import (is_first_run,
              default="exec")
 def cli():
     if is_first_run():
+        load_prebuilt_macros()
         display_setup_guide()
         complete_first_run()
     pass

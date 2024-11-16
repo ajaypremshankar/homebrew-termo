@@ -1,17 +1,17 @@
-from difflib import unified_diff
-
 import click
 
 from app.commands.base_command import Command
 from app.utils.click_utils import get_argument
 from app.utils.config_utils import load_macros, save_macros
-from app.utils.diff_utils import print_diff
+import tempfile
+import os
+from pathlib import Path
 
 
 class EditCommand(Command):
     def __init__(self):
         super().__init__(name="edit",
-                         help_text="Edit a saved macro by name",
+                         help_text="Edit a saved macro by name, uses vim btw",
                          arguments=get_argument("name"))
 
     def execute(self, name):
@@ -22,73 +22,36 @@ class EditCommand(Command):
 
         click.echo(f"Editing macro '{name}'...")
 
-        macro_copy_for_edit = macros[name].copy()
+        # Create a temporary file for editing
+        with tempfile.NamedTemporaryFile(mode="w+", delete=False, suffix=".macro") as temp_file:
+            temp_file_path = temp_file.name
+            temp_file_path_obj = Path(temp_file_path)
+            # Write the macro to the file with comments
+            temp_file.write("# Edit the macro commands below.\n")
+            temp_file.write("# Lines starting with '#' will be ignored.\n")
+            temp_file.writelines(f"{cmd}\n" for cmd in macros[name])
+            temp_file.flush()
 
-        click.echo("Current commands:")
-        for idx, command in enumerate(macros[name], start=1):
-            click.echo(f"{idx}. {command}")
+        original_mtime = temp_file_path_obj.stat().st_mtime
 
-        while True:
+        click.echo(f"Opening macro '{name}' for editing in {"vim"}...")
+        os.system(f"{"vim"} {temp_file_path}")
 
-            click.echo("\nOptions:")
-            click.echo("  1. Add a new command")
-            click.echo("  2. Remove a command by index")
-            click.echo("  3. Replace a command by index")
-            click.echo("  4. Save")
-            click.echo("  5. Abort\n")
+        updated_mtime = temp_file_path_obj.stat().st_mtime
 
-            diff = list(unified_diff(
-                macros[name],
-                macro_copy_for_edit,
-                fromfile="original",
-                tofile="edited",
-                lineterm=""
-            ))
+        if updated_mtime == original_mtime:
+            click.echo("No changes were saved. Aborting edit.")
+            os.unlink(temp_file_path)
+            return
 
-            print_diff(diff)
+        with open(temp_file_path, "r") as temp_file:
+            updated_commands = [
+                line.strip() for line in temp_file.readlines()
+                if line.strip() and not line.startswith("#")
+            ]
 
-            choice = input("\nEnter your choice (1-5): ").strip()
+        os.unlink(temp_file_path)
 
-            if choice == "1":
-                # Add a new command
-                new_command = input("Enter the new command: ").strip()
-                macro_copy_for_edit.append(new_command)
-                click.echo(f"Command added: {new_command}")
-
-            elif choice == "2":
-                # Remove a command by index
-                try:
-                    index = int(input("Enter the index of the command to remove: ")) - 1
-                    if 0 <= index < len(macro_copy_for_edit):
-                        removed_command = macro_copy_for_edit.pop(index)
-                        click.echo(f"Command removed: {removed_command}")
-                    else:
-                        click.echo("Invalid index.")
-                except ValueError:
-                    click.echo("Please enter a valid number.")
-
-            elif choice == "3":
-                # Replace a command by index
-                try:
-                    index = int(input("Enter the index of the command to replace: ")) - 1
-                    if 0 <= index < len(macro_copy_for_edit):
-                        new_command = input("Enter the new command: ").strip()
-                        old_command = macro_copy_for_edit[index]
-                        macro_copy_for_edit[index] = new_command
-                        click.echo(f"Command replaced: '{old_command}' → '{new_command}'")
-                    else:
-                        click.echo("Invalid index.")
-                except ValueError:
-                    click.echo("Please enter a valid number.")
-
-            elif choice == "4":
-                macros[name] = macro_copy_for_edit
-                save_macros(macros)
-                click.echo(f"Changes to macro '{name}' have been saved.")
-                click.echo(f"Exiting edit mode for macro '{name}'.")
-                break
-            elif choice == "5":
-                click.echo(f"Aborting edit for macro '{name}'.")
-                break
-            else:
-                click.echo("Invalid choice. Please enter a number between 1 and 4.")
+        macros[name] = updated_commands
+        save_macros(macros)
+        click.echo(f"Macro '{name}' has been updated.")

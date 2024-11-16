@@ -3,7 +3,6 @@ import click
 class DefaultGroup(click.Group):
 
     def __init__(self, *args, **kwargs):
-        # To resolve as the default command.
         if not kwargs.get('ignore_unknown_options', True):
             raise ValueError('Default group accepts unknown options')
         self.ignore_unknown_options = True
@@ -24,7 +23,6 @@ class DefaultGroup(click.Group):
 
     def get_command(self, ctx, cmd_name):
         if cmd_name not in self.commands:
-            # No command name matched.
             ctx.arg0 = cmd_name
             cmd_name = self.default_cmd_name
         return super(DefaultGroup, self).get_command(ctx, cmd_name)
