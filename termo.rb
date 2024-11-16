@@ -4,7 +4,7 @@ class Termo < Formula
     desc "A CLI tool for recording and running macros in the terminal"
     homepage "https://github.com/ajaypremshankar/homebrew-termo/"
     url "https://github.com/ajaypremshankar/homebrew-termo/releases/download/1.1.0/termo.tar.gz"
-    sha256 "d235dcddc17d6ecd5c051ec8e43909bc154a5fb366169a792e90090ececd9196"  
+    sha256 "29ef84acf3bb95477fc88a29fcc060221d1531d7144e902e01d5fc4deb171704"  
     license "MIT"
   
     depends_on "python@3.12"

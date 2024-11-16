@@ -6,7 +6,7 @@ import click
 MACRO_DIR = Path.home() / ".termo"
 MACRO_DIR.mkdir(exist_ok=True)
 HEAD_FILE = MACRO_DIR / "HEAD"
-CONFIG_FILE = MACRO_DIR / "config.json"
+CONFIG_FILE = MACRO_DIR / ".config.json"
 
 
 def is_first_run():
@@ -59,7 +59,7 @@ def clear_head():
 
 
 # Set up a storage file for macros
-MACRO_FILE = MACRO_DIR / ".macros.json"
+MACRO_FILE = MACRO_DIR / "macros.json"
 
 
 def load_macros():

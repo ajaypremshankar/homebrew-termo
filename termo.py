@@ -18,7 +18,7 @@ from app.utils.config_utils import (is_first_run,
 
 
 @click.group(cls=DefaultGroup,
-             default_if_no_args=True,
+             default_if_no_args=False,
              help="Pass command to run or just macro name to 'exec' given macro",
              default="exec")
 def cli():

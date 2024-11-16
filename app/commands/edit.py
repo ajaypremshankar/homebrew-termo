@@ -89,5 +89,6 @@ class EditCommand(Command):
                 break
             elif choice == "5":
                 click.echo(f"Aborting edit for macro '{name}'.")
+                break
             else:
                 click.echo("Invalid choice. Please enter a number between 1 and 4.")
