@@ -81,14 +81,14 @@ The commands recorded between `record start` and `record finish` will be saved.
 To replay the commands stored in a macro, use:
 
 ```bash
-macro exe <name>
+tm exec <name>
 ```
 
 Replace `<name>` with the name of the macro you want to run.
 
 Example:
 ```bash
-macro exe my_macro
+tm exec my_macro
 ```
 
 ### Example Workflow
@@ -111,7 +111,7 @@ macro exe my_macro
 
 4. Now, whenever you want to execute the `backup` macro, simply run:
    ```bash
-   macro exe backup
+   tm exec backup
    ```
 
 
