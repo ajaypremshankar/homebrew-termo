@@ -11,7 +11,7 @@ from pathlib import Path
 class NewCommand(Command):
     def __init__(self):
         super().__init__(name="new",
-                         help_text="Start recording a new macro",
+                         help_text="Add/start recording a new macro",
                          arguments=get_argument("name")
                                    + [click.Option(
                              ["--editor", "-e"], is_flag=True, help="Use editor to create the macro. Uses vim btw"

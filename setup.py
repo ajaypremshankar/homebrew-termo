@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="Termo",
-    version="1.1.0",
+    version="1.1.1",
     description="A CLI tool for recording and running macros in the terminal.",
     author="Ajay Prem Shankar",
     author_email="ajaypremshankar@gmail.com",
@@ -11,7 +11,8 @@ setup(
       # Include the `commands` package
     install_requires=[
         "click",
-        "setuptools"
+        "setuptools",
+        "paramiko"
     ],
     entry_points={
         "console_scripts": [

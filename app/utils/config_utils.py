@@ -5,9 +5,10 @@ import click
 
 MACRO_DIR = Path.home() / ".termo"
 MACRO_DIR.mkdir(exist_ok=True)
+
 HEAD_FILE = MACRO_DIR / "HEAD"
 CONFIG_FILE = MACRO_DIR / ".config.json"
-
+MACRO_FILE = MACRO_DIR / "macros.json"
 
 def load_prebuilt_macros():
     """Initialize pre-built macros."""
@@ -74,9 +75,6 @@ def clear_head():
     """Clear the HEAD file when recording ends or is aborted."""
     if HEAD_FILE.exists():
         HEAD_FILE.unlink()
-
-
-MACRO_FILE = MACRO_DIR / "macros.json"
 
 
 def load_macros():
