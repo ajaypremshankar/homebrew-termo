@@ -9,7 +9,7 @@ class DescCommand(Command):
     def __init__(self):
         super().__init__(name="desc",
                          help_text="Shows macro definition by name",
-                         arguments=get_argument("name"))
+                         arguments=[get_argument(["name"])])
 
     def execute(self, name):
         macros = load_macros()

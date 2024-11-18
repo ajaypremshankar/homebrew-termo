@@ -9,7 +9,7 @@ class FindCommand(Command):
     def __init__(self):
         super().__init__(name="find",
                          help_text="Search for a macro by keyword",
-                         arguments=get_argument("keyword")
+                         arguments=[get_argument(["keyword"])]
                          )
 
     def execute(self, keyword):

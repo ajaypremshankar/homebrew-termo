@@ -12,8 +12,8 @@ class RemoteCommand(Command):
             name="remote",
             help_text="Execute a macro on a remote machine via SSH (beta)",
             arguments=[
-                click.Argument(["macro_name"]),
-                click.Argument(["params"], nargs=-1),  # Accept multiple positional arguments for parameters
+                click.Argument(["name"]),
+                click.Argument(["params"], nargs=-1),
                 click.Option(["--host", "-h"], required=True, help="Remote host (user@host)."),
                 click.Option(["--port", "-p"], default=22, type=int, help="SSH port (default: 22)."),
                 click.Option(["--key", "-k"], default=None, help="Path to SSH private key."),
@@ -21,13 +21,13 @@ class RemoteCommand(Command):
             ],
         )
 
-    def execute(self, macro_name, params, host, port, key, password):
+    def execute(self, name, params, host, port, key, password):
         macros = load_macros()
-        if macro_name not in macros:
-            click.echo(f"No macro found with the name '{macro_name}'.")
+        if name not in macros:
+            click.echo(f"No macro found with the name '{name}'.")
             return
 
-        commands = macros[macro_name]
+        commands = macros[name]
 
         # Format commands with parameters if provided
         param_dict = {str(i + 1): param for i, param in enumerate(params)}
@@ -61,7 +61,7 @@ class RemoteCommand(Command):
                 return
 
             # Execute commands remotely
-            click.echo(f"Executing macro '{macro_name}' on {host}:\n")
+            click.echo(f"Executing macro '{name}' on {host}:\n")
             for cmd in formatted_commands:
                 click.echo(click.style(f"→ {cmd}", fg="green"))
                 stdin, stdout, stderr = ssh.exec_command(cmd)

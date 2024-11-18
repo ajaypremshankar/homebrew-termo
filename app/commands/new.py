@@ -1,21 +1,22 @@
-import click
-
-from app.commands.base_command import Command
-from app.utils.click_utils import get_argument
-from app.utils.config_utils import load_head, save_head, load_macros, save_macros
 import os
 import tempfile
 from pathlib import Path
+
+import click
+
+from app.commands.base_command import Command
+from app.utils.click_utils import get_argument, get_param
+from app.utils.config_utils import load_head, save_head, load_macros, save_macros
 
 
 class NewCommand(Command):
     def __init__(self):
         super().__init__(name="new",
                          help_text="Add/start recording a new macro",
-                         arguments=get_argument("name")
-                                   + [click.Option(
-                             ["--editor", "-e"], is_flag=True, help="Use editor to create the macro. Uses vim btw"
-                         )])
+                         arguments=[get_argument(["name"]),
+                                    get_param(["--editor", "-e"], True,
+                                              "Use editor to create the macro. Uses vim btw")
+                                    ])
 
     def execute(self, name, editor):
         macros = load_macros()

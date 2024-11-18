@@ -12,7 +12,7 @@ class EditCommand(Command):
     def __init__(self):
         super().__init__(name="edit",
                          help_text="Edit a saved macro by name, uses vim btw",
-                         arguments=get_argument("name"))
+                         arguments=[get_argument(["name"])])
 
     def execute(self, name):
         macros = load_macros()
